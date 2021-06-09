@@ -8,7 +8,9 @@ namespace RandomXSharp.Internals
 
         static LibRandomx()
         {
+            SequenceLogger.Log("Initializing instance...");
             Instance = NativeLibraryBuilder.Default.ActivateInterface<ILibRandomx>("randomx");
+            SequenceLogger.Log("Initialized instance.");
         }
     }
 }

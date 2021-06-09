@@ -42,11 +42,13 @@ namespace RandomXSharp
                 );
             }
 
+            SequenceLogger.Log("Calling randomx_create_vm()...");
             _handle = LibRandomx.Instance.randomx_create_vm(
                 flags,
                 cache?._handle ?? IntPtr.Zero,
                 dataset?._handle ?? IntPtr.Zero
             );
+            SequenceLogger.Log("Called randomx_create_vm().");
             if (_handle == IntPtr.Zero)
             {
                 throw new SystemException("Failed to create a machine.");
@@ -81,7 +83,9 @@ namespace RandomXSharp
                     );
                 }
 
+                SequenceLogger.Log("Calling randomx_vm_set_cache()...");
                 LibRandomx.Instance.randomx_vm_set_cache(_handle, value._handle);
+                SequenceLogger.Log("Called randomx_vm_set_cache().");
                 _cache = value;
             }
         }
@@ -89,12 +93,14 @@ namespace RandomXSharp
         public byte[] CaculateHash(byte[] input)
         {
             var buffer = new byte[HashSize];
+            SequenceLogger.Log("Calling randomx_calculate_hash()...");
             LibRandomx.Instance.randomx_calculate_hash(
                 _handle,
                 input,
                 Convert.ToUInt32(input.Length),
                 buffer
             );
+            SequenceLogger.Log("Called randomx_calculate_hash().");
             return buffer;
         }
 
@@ -107,12 +113,16 @@ namespace RandomXSharp
                 uint inputSize = Convert.ToUInt32(input.Length);
                 if (buffer is { } output)
                 {
+                    SequenceLogger.Log("Calling randomx_calculate_hash_next()...");
                     librandomx.randomx_calculate_hash_next(_handle, input, inputSize, output);
+                    SequenceLogger.Log("Called randomx_calculate_hash_next().");
                     yield return output;
                 }
                 else
                 {
+                    SequenceLogger.Log("Calling randomx_calculate_hash_first()...");
                     librandomx.randomx_calculate_hash_first(_handle, input, inputSize);
+                    SequenceLogger.Log("Called randomx_calculate_hash_first().");
                 }
 
                 buffer = new byte[HashSize];
@@ -120,14 +130,18 @@ namespace RandomXSharp
 
             if (buffer is { } lastOutput)
             {
+                SequenceLogger.Log("Calling randomx_calculate_hash_last()...");
                 librandomx.randomx_calculate_hash_last(_handle, lastOutput);
+                SequenceLogger.Log("Called randomx_calculate_hash_last().");
                 yield return lastOutput;
             }
         }
 
         public void Dispose()
         {
+            SequenceLogger.Log("Calling randomx_destroy_vm()...");
             LibRandomx.Instance.randomx_destroy_vm(_handle);
+            SequenceLogger.Log("Called randomx_destroy_vm().");
         }
     }
 }
