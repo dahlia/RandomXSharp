@@ -14,9 +14,11 @@ fi
 case "$(uname -s)" in
 Darwin)
   shared_lib_filename=librandomx.dylib
+  nm_opts=-gU
   ;;
 *)
   shared_lib_filename=librandomx.so
+  nm_opts=-D
   ;;
 esac
 destination="$(dirname "$0")/native/$shared_lib_filename"
@@ -51,6 +53,9 @@ if [[ "$CI" = "true" ]]; then
 fi
 cmake -DARCH=native -DBUILD_SHARED_LIBS=ON
 make
+if [[ "$CI" = "true" ]]; then
+  nm "$nm_opts" "$tmpdir/$shared_lib_filename"
+fi
 popd
 cp "$tmpdir/$shared_lib_filename" "$destination"
 echo "$destination has been made; check it out!" > /dev/stderr
