@@ -12,7 +12,7 @@ namespace RandomXSharp
             SequenceLogger.Log("Calling randomx_alloc_cache()...");
             _handle = LibRandomx.Instance.randomx_alloc_cache(flags);
             SequenceLogger.Log("Calling randomx_init_cache()...");
-            LibRandomx.Instance.randomx_init_cache(_handle, key, Convert.ToUInt32(key.Length));
+            LibRandomx.Instance.randomx_init_cache(_handle, key, (UIntPtr)key.Length);
             SequenceLogger.Log("Called randomx_init_cache().");
         }
 

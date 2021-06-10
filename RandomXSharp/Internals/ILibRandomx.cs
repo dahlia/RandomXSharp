@@ -11,7 +11,7 @@ namespace RandomXSharp.Internals
         void randomx_init_cache(
             IntPtr cache,
             byte[] key,
-            uint keySize
+            UIntPtr keySize
         );
 
         void randomx_release_cache(IntPtr cache);
@@ -32,13 +32,13 @@ namespace RandomXSharp.Internals
         void randomx_calculate_hash_first(
             IntPtr machine,
             byte[] input,
-            uint inputSize
+            UIntPtr inputSize
         );
 
         void randomx_calculate_hash_next(
             IntPtr machine,
             byte[] nextInput,
-            uint nextInputSize,
+            UIntPtr nextInputSize,
             byte[] output
         );
 

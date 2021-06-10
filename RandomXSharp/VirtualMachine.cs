@@ -110,7 +110,7 @@ namespace RandomXSharp
             byte[]? buffer = null;
             foreach (byte[] input in inputs)
             {
-                uint inputSize = Convert.ToUInt32(input.Length);
+                UIntPtr inputSize = (UIntPtr)input.Length;
                 if (buffer is { } output)
                 {
                     SequenceLogger.Log("Calling randomx_calculate_hash_next()...");

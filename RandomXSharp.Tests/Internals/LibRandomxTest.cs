@@ -29,7 +29,7 @@ namespace RandomXSharp.Tests.Internals
 
             Flags flags = librandomx.randomx_get_flags();
             IntPtr myCache = librandomx.randomx_alloc_cache(flags);
-            librandomx.randomx_init_cache(myCache, myKey, Convert.ToUInt32(myKey.Length));
+            librandomx.randomx_init_cache(myCache, myKey, (UIntPtr)myKey.Length);
             IntPtr myMachine = librandomx.randomx_create_vm(flags, myCache, IntPtr.Zero);
             librandomx.randomx_calculate_hash(
                 myMachine,
