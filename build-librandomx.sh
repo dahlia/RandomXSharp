@@ -1,6 +1,10 @@
 #!/bin/bash
 set -e
 
+if [[ "$CI" = "true" ]]; then
+  set -vx
+fi
+
 if ! command -v git > /dev/null; then
   echo "No git in the system; install git first." > /dev/stderr
   exit 1
@@ -40,6 +44,13 @@ git clone \
   git://github.com/tevador/RandomX.git \
   "$tmpdir"
 pushd "$tmpdir"
+if [[ "$(uname -s)" = Linux ]] && command -v gcc > /dev/null; then
+  export CC=gcc
+  export CXX=g++
+elif [[ "$(uname -s)" = Darwin ]] && command -v clang > /dev/null; then
+  export CC=clang
+  export CXX=clang++
+fi
 cmake -DARCH=native -DBUILD_SHARED_LIBS=ON
 make
 popd

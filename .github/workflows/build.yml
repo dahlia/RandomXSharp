@@ -33,6 +33,8 @@ jobs:
       with:
         path: native
         key: ${{ runner.os }}-${{ env.RANDOMX_VERSION }}
+    - if: runner.os == 'Linux'
+      run: sudo apt-get install -y build-essential gcc gdb lldb
     - if: runner.os != 'Windows'
       run: ./build-librandomx.sh "$RANDOMX_VERSION"
     - if: runner.os == 'Windows'
